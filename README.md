@@ -5,7 +5,7 @@ Also, it adds useful methods and functions.
 
 ## Motivation
 
-When using ORM-s like `gorm`, `go-pg`, `bun` you have to pass column names to update rows in DB.
+When using ORM-s like `gorm`, `go-pg`, `bun` you have to pass column names as arguments of different methods.
 This is a pain to use raw strings for that, and it also might be a security risk.
 Much better to rely on ENUM which represents columns for a specific table.
 
