@@ -31,14 +31,14 @@ type config struct {
 
 func initConfig() (config, error) {
 	pkg := flag.String("pkg", ".", "Package name to extract type from")
-	typ := flag.String("type", "", "Type name to generate fields for")
-	suffix := flag.String("suffix", "Field", "Generated type name suffix")
-	tag := flag.String("tag", "", "Extract field names from struct tag")
+	typ := flag.String("type", "", "Type to extract fields from")
+	suffix := flag.String("suffix", "Field", "Suffix for the generated struct")
+	tag := flag.String("tag", "", `Use tag to extract field values from (default "")`)
 	format := flag.String("format", formatAsIs, "Format of the generated type values")
-	embedded := flag.Bool("embedded", false, "Extract embedded fields")
-	excluded := flag.String("excluded", "", "Comma separated list of excluded fields")
-	templateFilename := flag.String("tpl", "", "Override template file")
-	outputFilename := flag.String("output", "", "Output file name (default <src_dir>/<type>_fielder.go)")
+	embedded := flag.Bool("embedded", false, "Extract embedded fields (default false)")
+	excluded := flag.String("excluded", "", `Comma separated list of excluded fields (default "")`)
+	templateFilename := flag.String("tpl", "", `Set template filename (default "")`)
+	outputFilename := flag.String("output", "", `Set output filename (default "<src_dir>/<type>_fielder.go")`)
 
 	flag.Parse()
 
