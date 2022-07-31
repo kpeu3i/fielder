@@ -20,6 +20,7 @@ The library provides the following features:
   * Extracting embedded struct fields are supported
   * Fields excluding is supported
   * Different formats of generated field values are supported (camel, pascal, snake)
+  * Template which is used to generate the code can be overridden
 
 ## Installation
 
