@@ -51,7 +51,7 @@ You can check for example in the `example` folder.
 
 The following CLI flags are allowed:
 
-```shell
+```
 Usage of fielder:
   -embedded
     	Extract embedded fields
