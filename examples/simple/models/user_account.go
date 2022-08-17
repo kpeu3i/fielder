@@ -1,9 +1,9 @@
 //go:generate fielder -type=UserAccount -suffix=Column -embedded=true -tag=db -excluded=FullName
 
-package example
+package models
 
 import (
-	"github.com/kpeu3i/fielder/example/common"
+	"github.com/kpeu3i/fielder/examples/simple/models/common"
 )
 
 type UserAccount struct {

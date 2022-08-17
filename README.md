@@ -8,17 +8,17 @@ Also, it adds useful methods and functions.
 When using ORM-s like `gorm`, `go-pg`, `bun` you have to pass column names as arguments of different methods.
 This is a pain to use raw strings for that, and it also might be a security risk.
 Much better to rely on ENUM which represents columns for a specific table.
+Also, the generated field names can be used in combination with Golang reflection (`FieldByName`) for different purposes.
 
 ## Features
 
 The library provides the following features:
 
-  * Generating ENUM for the struct fields
-  * Generating method to validate ENUM values
-  * Generating function to list all ENUM values
+  * Struct fields representation with ENUM 
+  * Different functions and methods to work with ENUM (validation, listing, conversion to string, etc)
   * Tag-based field names extraction
-  * Extraction of embedded fields
-  * Excluding fields 
+  * Embedded fields extraction
+  * Fields excluding  
   * Different formatting (camel, pascal, snake)
   * Template overriding
 
@@ -34,7 +34,7 @@ For example:
 ```go
 //go:generate fielder -type=UserAccount
 
-package domain
+package models
  
 type UserAccount struct {
     FirstName string
@@ -47,7 +47,6 @@ type UserAccount struct {
 Then, run command bellow to generate the code:
 
     $ go generate ./...
-
 
 For more details, check example in the `example` folder. 
 
@@ -74,3 +73,25 @@ Usage of fielder:
   -type string
         Type to extract fields from
 ```
+
+## Generated types, functions and methods
+
+When *Fielder* is applied to a type, it will generate public functions/methods and types:
+
+* Type `<Type><Suffix>` represents fields ENUM:
+    * Method `<Type><Suffix>::IsValid` returns true if the value is a valid ENUM.
+    * Method `<Type><Suffix>::String` returns the string representation of the value.
+* Type `<Type><Suffix>List` represents collection of ENUM fields:
+    * Method `<Type><Suffix>List::Len` returns the number of values in the collection.
+    * Method `<Type><Suffix>List::Contains` returns true if the collection contains the value.
+    * Method `<Type><Suffix>List::Equals` returns true if the two collections are equal.
+    * Method `<Type><Suffix>List::Similar` returns true if the two collections contain the same values.
+    * Method `<Type><Suffix>List::Add` adds the value to the collection.
+    * Method `<Type><Suffix>List::AddIfNotContains` adds the value to the collection if it is not already in the collection.
+    * Method `<Type><Suffix>List::Remove` removes the value from the collection.
+    * Method `<Type><Suffix>List::Clear` clears the collection.
+    * Method `<Type><Suffix>List::Strings` returns a slice with all the strings of the collection items.
+* Functions:
+    * `<Type><Suffix>Values` returns a slice with all the values of the ENUM.
+    * `<Type><Suffix>Strings` returns a slice with all the strings of the ENUM.
+    * `New<Type><Suffix>` returns a new collection with all the values of the ENUM.
