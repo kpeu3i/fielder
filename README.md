@@ -1,26 +1,26 @@
 # Fielder
 
 *Fielder* is a tool to generate Go code that extracts fields from a struct and transforms them into ENUM.
-Also, it adds useful methods and functions. 
+Also, it adds useful types, methods and functions. 
 
 ## Motivation
 
 When using ORM-s like `gorm`, `go-pg`, `bun` you have to pass column names as arguments of different methods.
 This is a pain to use raw strings for that, and it also might be a security risk.
-Much better to rely on ENUM which represents columns for a specific table.
+Much better to rely on ENUM which represents columns for a specific table.  
 Also, the generated field names can be used in combination with Golang reflection (`FieldByName`) for different purposes.
 
 ## Features
 
 The library provides the following features:
 
-  * Struct fields representation with ENUM 
-  * Different functions and methods to work with ENUM (validation, listing, conversion to string, etc)
-  * Tag-based field names extraction
-  * Embedded fields extraction
-  * Fields excluding  
-  * Different formatting (camel, pascal, snake)
-  * Template overriding
+  * Struct fields representation with ENUM.
+  * Different functions and methods to work with ENUM (validation, listing, conversion to string, etc).
+  * Tag-based field names extraction.
+  * Embedded fields extraction.
+  * Fields excluding.
+  * Different formatting (camel, pascal, snake).
+  * Template overriding.
 
 ## Installation
 
@@ -48,7 +48,12 @@ Then, run command bellow to generate the code:
 
     $ go generate ./...
 
-For more details, check example in the `example` folder. 
+The following formatting strategies can be applied for the extracted field names (see `format` flag):
+ * `snake_case` (e.g `first_name`)
+ * `camel_case` (e.g `firstName`)
+ * `pascal_case` (e.g `FirstName`)
+
+For more details, check the [examples](examples) folder in the project root. 
 
 The following CLI flags are allowed:
 
@@ -95,3 +100,7 @@ When *Fielder* is applied to a type, it will generate public functions/methods a
     * `<Type><Suffix>Values` returns a slice with all the values of the ENUM.
     * `<Type><Suffix>Strings` returns a slice with all the strings of the ENUM.
     * `New<Type><Suffix>` returns a new collection with all the values of the ENUM.
+
+## Inspiring projects
+  * [enumer](https://github.com/dmarkham/enumer)
+  * [stringer](https://pkg.go.dev/golang.org/x/tools/cmd/stringer)
