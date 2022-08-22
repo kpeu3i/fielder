@@ -88,14 +88,14 @@ func (l {{ $fieldListType}}) Similar(other {{ $fieldListType}}) bool {
 	return true
 }
 
-// Add adds the value to the collection.
-func (l *{{ $fieldListType}}) Add(v {{ $fieldType}}) *{{ $fieldListType}} {
-	*l = append(*l, v)
+// Add adds the values to the collection.
+func (l *{{ $fieldListType}}) Add(v ...{{ $fieldType}}) *{{ $fieldListType}} {
+    *l = append(*l, v...)
 
 	return l
 }
 
-// AddIfNotContains adds the value to the collection if it is not already in the collection.
+// AddIfNotContains adds the values to the collection if they are not already present.
 func (l *{{ $fieldListType}}) AddIfNotContains(v ...{{ $fieldType}}) *{{ $fieldListType}} {
 	for _, x := range v {
 		if !l.Contains(x) {
@@ -106,13 +106,15 @@ func (l *{{ $fieldListType}}) AddIfNotContains(v ...{{ $fieldType}}) *{{ $fieldL
 	return l
 }
 
-// Remove removes the value from the collection.
-func (l *{{ $fieldListType}}) Remove(v {{ $fieldType}}) *{{ $fieldListType}} {
-	for i, x := range *l {
-		if x == v {
-			*l = append((*l)[:i], (*l)[i+1:]...)
+// Remove removes the values from the collection.
+func (l *{{ $fieldListType}}) Remove(v ...{{ $fieldType}}) *{{ $fieldListType}} {
+	for _, x := range v {
+		for i, y := range *l {
+			if y == x {
+				*l = append((*l)[:i], (*l)[i+1:]...)
 
-			return l
+				break
+			}
 		}
 	}
 
@@ -162,4 +164,14 @@ func New{{ $fieldListType }}() {{ $fieldListType }} {
    copy(result, {{ $fieldValues }}[:])
 
    return result
+}
+
+// New{{ $fieldListType }}With returns a new {{ $fieldListType }} with the given values of the ENUM.
+func New{{ $fieldListType }}With(v ...{{ $fieldType}}) {{ $fieldListType }} {
+	result := {{ $fieldListType }}{}
+	if len(v) > 0 {
+		result.Add(v...)
+	}
+
+	return result
 }

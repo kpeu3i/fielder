@@ -92,14 +92,14 @@ func (l UserAccountColumnList) Similar(other UserAccountColumnList) bool {
 	return true
 }
 
-// Add adds the value to the collection.
-func (l *UserAccountColumnList) Add(v UserAccountColumn) *UserAccountColumnList {
-	*l = append(*l, v)
+// Add adds the values to the collection.
+func (l *UserAccountColumnList) Add(v ...UserAccountColumn) *UserAccountColumnList {
+	*l = append(*l, v...)
 
 	return l
 }
 
-// AddIfNotContains adds the value to the collection if it is not already in the collection.
+// AddIfNotContains adds the values to the collection if they are not already present.
 func (l *UserAccountColumnList) AddIfNotContains(v ...UserAccountColumn) *UserAccountColumnList {
 	for _, x := range v {
 		if !l.Contains(x) {
@@ -110,13 +110,15 @@ func (l *UserAccountColumnList) AddIfNotContains(v ...UserAccountColumn) *UserAc
 	return l
 }
 
-// Remove removes the value from the collection.
-func (l *UserAccountColumnList) Remove(v UserAccountColumn) *UserAccountColumnList {
-	for i, x := range *l {
-		if x == v {
-			*l = append((*l)[:i], (*l)[i+1:]...)
+// Remove removes the values from the collection.
+func (l *UserAccountColumnList) Remove(v ...UserAccountColumn) *UserAccountColumnList {
+	for _, x := range v {
+		for i, y := range *l {
+			if y == x {
+				*l = append((*l)[:i], (*l)[i+1:]...)
 
-			return l
+				break
+			}
 		}
 	}
 
@@ -164,6 +166,16 @@ func UserAccountColumnStrings() []string {
 func NewUserAccountColumnList() UserAccountColumnList {
 	result := make([]UserAccountColumn, len(_UserAccountColumnValues))
 	copy(result, _UserAccountColumnValues[:])
+
+	return result
+}
+
+// NewUserAccountColumnListWith returns a new UserAccountColumnList with the given values of the ENUM.
+func NewUserAccountColumnListWith(v ...UserAccountColumn) UserAccountColumnList {
+	result := UserAccountColumnList{}
+	if len(v) > 0 {
+		result.Add(v...)
+	}
 
 	return result
 }

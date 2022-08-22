@@ -91,15 +91,16 @@ When *Fielder* is applied to a type, it will generate public functions/methods a
     * Method `<Type><Suffix>List::Contains` returns true if the collection contains the value.
     * Method `<Type><Suffix>List::Equals` returns true if the two collections are equal.
     * Method `<Type><Suffix>List::Similar` returns true if the two collections contain the same values.
-    * Method `<Type><Suffix>List::Add` adds the value to the collection.
-    * Method `<Type><Suffix>List::AddIfNotContains` adds the value to the collection if it is not already in the collection.
-    * Method `<Type><Suffix>List::Remove` removes the value from the collection.
+    * Method `<Type><Suffix>List::Add` adds the values to the collection.
+    * Method `<Type><Suffix>List::AddIfNotContains` adds the values to the collection if they are not already present.
+    * Method `<Type><Suffix>List::Remove` removes the values from the collection.
     * Method `<Type><Suffix>List::Clear` clears the collection.
     * Method `<Type><Suffix>List::Strings` returns a slice with all the strings of the collection items.
 * Functions:
     * `<Type><Suffix>Values` returns a slice with all the values of the ENUM.
     * `<Type><Suffix>Strings` returns a slice with all the strings of the ENUM.
     * `New<Type><Suffix>` returns a new collection with all the values of the ENUM.
+    * `New<Type><Suffix>With` returns a new collection with the given values of the ENUM.
 
 ## Inspiring projects
   * [enumer](https://github.com/dmarkham/enumer)
