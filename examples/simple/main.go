@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"reflect"
 
 	"github.com/kpeu3i/fielder/examples/simple/models"
 )
@@ -12,7 +11,7 @@ func main() {
 	fmt.Println("enum validation:", models.UserAccountColumn("_INVALID_").IsValid()) // false
 
 	columns1 := models.NewUserAccountColumnList()
-	columns2 := models.NewUserAccountColumnList()
+	columns2 := *columns1.Clone()
 
 	fmt.Println("collection equality (1):", columns1.Equals(columns2))    // true
 	fmt.Println("collection similarity (1):", columns1.Similar(columns2)) // true
@@ -39,8 +38,4 @@ func main() {
 
 	fmt.Println("collection_1:", columns1.Strings()) // [id]
 	fmt.Println("collection_2:", columns2.Strings()) // [id created_at updated_at name surname email password]
-
-	r := reflect.ValueOf(&models.UserAccount{})
-	f := reflect.Indirect(r).FieldByName("id")
-	fmt.Println(f.String())
 }

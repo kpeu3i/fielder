@@ -43,12 +43,12 @@ func (x {{ $fieldType }}) String() string {
 type {{ $fieldListType }} []{{ $fieldType }}
 
 // Len returns the number of values in the collection.
-func (l {{ $fieldListType}}) Len() int {
+func (l {{ $fieldListType }}) Len() int {
 	return len(l)
 }
 
 // Contains returns true if the collection contains the value.
-func (l {{ $fieldListType}}) Contains(v {{ $fieldType}}) bool {
+func (l {{ $fieldListType }}) Contains(v {{ $fieldType }}) bool {
 	for _, x := range l {
 		if x == v {
 			return true
@@ -59,7 +59,7 @@ func (l {{ $fieldListType}}) Contains(v {{ $fieldType}}) bool {
 }
 
 // Equals returns true if the two collections are equal.
-func (l {{ $fieldListType}}) Equals(other {{ $fieldListType}}) bool {
+func (l {{ $fieldListType }}) Equals(other {{ $fieldListType }}) bool {
 	if len(l) != len(other) {
 		return false
 	}
@@ -74,7 +74,7 @@ func (l {{ $fieldListType}}) Equals(other {{ $fieldListType}}) bool {
 }
 
 // Similar returns true if the two collections contain the same values.
-func (l {{ $fieldListType}}) Similar(other {{ $fieldListType}}) bool {
+func (l {{ $fieldListType }}) Similar(other {{ $fieldListType }}) bool {
 	if len(l) != len(other) {
 		return false
 	}
@@ -89,14 +89,14 @@ func (l {{ $fieldListType}}) Similar(other {{ $fieldListType}}) bool {
 }
 
 // Add adds the values to the collection.
-func (l *{{ $fieldListType}}) Add(v ...{{ $fieldType}}) *{{ $fieldListType}} {
+func (l *{{ $fieldListType }}) Add(v ...{{ $fieldType }}) *{{ $fieldListType }} {
     *l = append(*l, v...)
 
 	return l
 }
 
 // AddIfNotContains adds the values to the collection if they are not already present.
-func (l *{{ $fieldListType}}) AddIfNotContains(v ...{{ $fieldType}}) *{{ $fieldListType}} {
+func (l *{{ $fieldListType }}) AddIfNotContains(v ...{{ $fieldType }}) *{{ $fieldListType }} {
 	for _, x := range v {
 		if !l.Contains(x) {
 			l.Add(x)
@@ -107,7 +107,7 @@ func (l *{{ $fieldListType}}) AddIfNotContains(v ...{{ $fieldType}}) *{{ $fieldL
 }
 
 // Remove removes the values from the collection.
-func (l *{{ $fieldListType}}) Remove(v ...{{ $fieldType}}) *{{ $fieldListType}} {
+func (l *{{ $fieldListType }}) Remove(v ...{{ $fieldType }}) *{{ $fieldListType }} {
 	for _, x := range v {
 		for i, y := range *l {
 			if y == x {
@@ -122,14 +122,28 @@ func (l *{{ $fieldListType}}) Remove(v ...{{ $fieldType}}) *{{ $fieldListType}} 
 }
 
 // Clear clears the collection.
-func (l *{{ $fieldListType}}) Clear() *{{ $fieldListType}} {
-	*l = []{{ $fieldType}}{}
+func (l *{{ $fieldListType }}) Clear() *{{ $fieldListType }} {
+	*l = []{{ $fieldType }}{}
 
 	return l
 }
 
+// Clone returns a pointer to a copy of the collection.
+func (l *{{ $fieldListType }}) Clone() *{{ $fieldListType }} {
+	if l == nil {
+		return nil
+	}
+
+    items := make([]{{ $fieldType }}, len(*l))
+	copy(items, *l)
+
+	result := {{ $fieldListType }}(items)
+
+	return &result
+}
+
 // Strings returns a slice with all the strings of the collection items.
-func (l {{ $fieldListType}}) Strings() []string {
+func (l {{ $fieldListType }}) Strings() []string {
 	strings := make([]string, 0, len(l))
 	for _, x := range l {
 		strings = append(strings, x.String())
@@ -167,7 +181,7 @@ func New{{ $fieldListType }}() {{ $fieldListType }} {
 }
 
 // New{{ $fieldListType }}With returns a new {{ $fieldListType }} with the given values of the ENUM.
-func New{{ $fieldListType }}With(v ...{{ $fieldType}}) {{ $fieldListType }} {
+func New{{ $fieldListType }}With(v ...{{ $fieldType }}) {{ $fieldListType }} {
 	result := {{ $fieldListType }}{}
 	if len(v) > 0 {
 		result.Add(v...)

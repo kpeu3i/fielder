@@ -95,6 +95,7 @@ When *Fielder* is applied to a type, it will generate public functions/methods a
     * Method `<Type><Suffix>List::AddIfNotContains` adds the values to the collection if they are not already present.
     * Method `<Type><Suffix>List::Remove` removes the values from the collection.
     * Method `<Type><Suffix>List::Clear` clears the collection.
+    * Method `<Type><Suffix>List::Clone` returns a pointer to a copy of the collection.
     * Method `<Type><Suffix>List::Strings` returns a slice with all the strings of the collection items.
 * Functions:
     * `<Type><Suffix>Values` returns a slice with all the values of the ENUM.

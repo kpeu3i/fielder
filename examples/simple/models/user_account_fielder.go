@@ -132,6 +132,20 @@ func (l *UserAccountColumnList) Clear() *UserAccountColumnList {
 	return l
 }
 
+// Clone returns a pointer to a copy of the collection.
+func (l *UserAccountColumnList) Clone() *UserAccountColumnList {
+	if l == nil {
+		return nil
+	}
+
+	items := make([]UserAccountColumn, len(*l))
+	copy(items, *l)
+
+	result := UserAccountColumnList(items)
+
+	return &result
+}
+
 // Strings returns a slice with all the strings of the collection items.
 func (l UserAccountColumnList) Strings() []string {
 	strings := make([]string, 0, len(l))
