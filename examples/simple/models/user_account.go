@@ -1,4 +1,4 @@
-//go:generate fielder -type=UserAccount -suffix=Column -embedded=true -tag=db -excluded=FullName
+//go:generate fielder -type=UserAccount -suffix=Column -embedded=true -tag=db -tag_strict=true -excluded=FullName
 
 package models
 

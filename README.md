@@ -16,7 +16,7 @@ The library provides the following features:
 
   * Struct fields representation with ENUM.
   * Different functions and methods to work with ENUM (validation, listing, conversion to string, etc).
-  * Tag-based field names extraction.
+  * Tag-based field names extraction (regex can be used to extract a value from a tag).
   * Embedded fields extraction.
   * Fields excluding.
   * Different formatting (camel, pascal, snake).
@@ -24,7 +24,7 @@ The library provides the following features:
 
 ## Installation
 
-    $ go install github.com/kpeu3i/fielder@v1.4.0
+    go install github.com/kpeu3i/fielder@v1.5.0
 
 ## Usage
 
@@ -48,7 +48,7 @@ Then, run command bellow to generate the code:
 
     $ go generate ./...
 
-The following formatting strategies can be applied for the extracted field names (see `format` flag):
+The following formatting strategies can be applied for the extracted field names (see `format` and `tag_format` flag):
  * `snake_case` (e.g `first_name`)
  * `camel_case` (e.g `firstName`)
  * `pascal_case` (e.g `FirstName`)
@@ -60,23 +60,29 @@ The following CLI flags are allowed:
 ```
 Usage of fielder:
   -embedded
-        Extract embedded fields (default false)
+    	Extract embedded fields (default false)
   -excluded string
-        Comma separated list of excluded fields (default "")
+    	Comma separated list of excluded fields (default "")
   -format string
-        Format of the generated type values (default "as_is")
+    	Format of the generated type values extracted from the struct field (default "as_is")
   -output string
-        Set output filename (default "<src_dir>/<type>_fielder.go")
+    	Set output filename (default "<src_dir>/<type>_fielder.go")
   -pkg string
-        Package name to extract type from (default ".")
+    	Package name to extract type from (default ".")
   -suffix string
-        Suffix for the generated struct (default "Field")
+    	Suffix for the generated struct (default "Field")
   -tag string
-        Use tag to extract field values from (default "")
+    	Tag to extract field values from (default "")
+  -tag_format string
+    	Format of the generated type values extracted from the tag (default "as_is")
+  -tag_regexp string
+    	Regular expression to parse field value from a tag (default "")
+  -tag_strict
+    	Strict mode for tag parsing (returns error if tag is not found)
   -tpl string
-        Set template filename (default "")
+    	Set template filename (default "")
   -type string
-        Type to extract fields from
+    	Type to extract fields from
 ```
 
 ## Generated types, functions and methods

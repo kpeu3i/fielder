@@ -13,9 +13,10 @@ type EntityDeletedAt struct {
 }
 
 type Entity struct {
-	ID        string    `db:"uuid"`
-	CreatedAt time.Time `db:"created_at"`
-	UpdatedAt time.Time `db:"updated_at"`
+	ID             string    `db:"uuid"`
+	CreatedAt      time.Time `db:"created_at,type:timestamp"`
+	UpdatedAt      time.Time `db:"updated_at,type:timestamp"`
+	FirstUpdatedAt time.Time
 
 	EntityID
 	EntityDeletedAt

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"go/types"
+	"regexp"
 
 	"github.com/fatih/structtag"
 	"github.com/iancoleman/strcase"
@@ -15,6 +16,16 @@ type field struct {
 	Name  string
 	Alias string
 	Depth int
+}
+
+type parseFieldsParams struct {
+	format    string
+	tag       string
+	tagRegex  string
+	tagFormat string
+	tagStrict bool
+	embedded  bool
+	excluded  []string
 }
 
 func parseType(path, name string) (string, types.Type, error) {
@@ -40,14 +51,7 @@ func parseType(path, name string) (string, types.Type, error) {
 	return obj.Pkg().Name(), obj.Type(), nil
 }
 
-func parseFields(
-	typ types.Type,
-	useTag string,
-	useEmbedded bool,
-	excluded []string,
-	format string,
-	depth int,
-) ([]field, error) {
+func parseFields(typ types.Type, params parseFieldsParams, depth int) ([]field, error) {
 	strct, ok := typ.Underlying().(*types.Struct)
 	if !ok {
 		return nil, fmt.Errorf("type %s is not a struct", typ)
@@ -62,17 +66,17 @@ func parseFields(
 			continue
 		}
 
-		isExcluded := lo.Contains(excluded, strct.Field(i).Name())
+		isExcluded := lo.Contains(params.excluded, strct.Field(i).Name())
 		if isExcluded {
 			continue
 		}
 
 		if strct.Field(i).Embedded() {
-			if !useEmbedded {
+			if !params.embedded {
 				continue
 			}
 
-			embeddedFields, err := parseFields(strct.Field(i).Type(), useTag, useEmbedded, excluded, format, depth)
+			embeddedFields, err := parseFields(strct.Field(i).Type(), params, depth)
 			if err != nil {
 				return nil, err
 			}
@@ -80,24 +84,52 @@ func parseFields(
 			fields = append(fields, embeddedFields...)
 		} else {
 			alias := strct.Field(i).Name()
-			if useTag != "" {
+			format := params.format
+
+			if params.tag != "" {
 				tags, err := structtag.Parse(strct.Tag(i))
 				if err != nil {
 					return nil, err
 				}
 
-				found := false
+				var matchedTag *structtag.Tag
 				for _, t := range tags.Tags() {
-					if t.Key == useTag {
-						alias = t.Name
-						found = true
+					if t.Key == params.tag {
+						matchedTag = t
 
 						break
 					}
 				}
 
-				if !found {
-					return nil, fmt.Errorf("tag %s not found for field %s", useTag, strct.Field(i).Name())
+				if matchedTag != nil {
+					if params.tagRegex == "" {
+						alias = matchedTag.Name
+						format = params.tagFormat
+					} else {
+						regex, err := regexp.Compile(params.tagRegex)
+						if err != nil {
+							return nil, err
+						}
+
+						matches := regex.FindStringSubmatch(matchedTag.Value())
+						if len(matches) < 2 {
+							if params.tagStrict {
+								return nil, fmt.Errorf(
+									"tag %s of field %s does not match regex %s",
+									matchedTag.Value(),
+									strct.Field(i).Name(),
+									params.tagRegex,
+								)
+							}
+						} else {
+							format = params.tagFormat
+							alias = matches[1]
+						}
+					}
+				} else {
+					if params.tagStrict {
+						return nil, fmt.Errorf("tag %s not found for field %s", params.tag, strct.Field(i).Name())
+					}
 				}
 			}
 
@@ -110,7 +142,7 @@ func parseFields(
 			case formatPascalCase:
 				alias = strcase.ToCamel(alias)
 			default:
-				return nil, fmt.Errorf("invalid format %s", format)
+				return nil, fmt.Errorf("invalid format %s", params.format)
 			}
 
 			fields = append(fields, field{

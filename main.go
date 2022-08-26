@@ -15,7 +15,17 @@ func main() {
 		log.Fatalf("cannot parse type %s: %v", conf.Type, err)
 	}
 
-	fields, err := parseFields(typ, conf.Tag, conf.Embedded, conf.Excluded, conf.Format, 0)
+	parseParams := parseFieldsParams{
+		format:    conf.Format,
+		tag:       conf.Tag,
+		tagRegex:  conf.TagRegex,
+		tagFormat: conf.TagFormat,
+		tagStrict: conf.TagStrict,
+		embedded:  conf.Embedded,
+		excluded:  conf.Excluded,
+	}
+
+	fields, err := parseFields(typ, parseParams, 0)
 	if err != nil {
 		log.Fatalf("cannot parse fields for type %s: %v", conf.Type, err)
 	}
@@ -33,7 +43,7 @@ func main() {
 		log.Fatalf("no output generated")
 	}
 
-	err = writeToFile(conf.OutputFilename, output)
+	err = writeToFile(output, conf.OutputFilename)
 	if err != nil {
 		log.Fatalf("cannot write to file %s: %v", conf.OutputFilename, err)
 	}
