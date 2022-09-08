@@ -24,7 +24,7 @@ The library provides the following features:
 
 ## Installation
 
-    go install github.com/kpeu3i/fielder@v1.5.0
+    go install github.com/kpeu3i/fielder@v1.6.0
 
 ## Usage
 
