@@ -51,6 +51,11 @@ func (l UserAccountColumnList) Len() int {
 	return len(l)
 }
 
+// IsEmpty returns true if the collection is empty.
+func (l UserAccountColumnList) IsEmpty() bool {
+	return l.Len() == 0
+}
+
 // Contains returns true if the collection contains the value.
 func (l UserAccountColumnList) Contains(v UserAccountColumn) bool {
 	for _, x := range l {

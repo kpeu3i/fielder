@@ -47,6 +47,11 @@ func (l {{ $fieldListType }}) Len() int {
 	return len(l)
 }
 
+// IsEmpty returns true if the collection is empty.
+func (l {{ $fieldListType }}) IsEmpty() bool {
+	return l.Len() == 0
+}
+
 // Contains returns true if the collection contains the value.
 func (l {{ $fieldListType }}) Contains(v {{ $fieldType }}) bool {
 	for _, x := range l {

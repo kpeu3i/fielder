@@ -94,6 +94,7 @@ When *Fielder* is applied to a type, it will generate public functions/methods a
     * Method `<Type><Suffix>::String` returns the string representation of the value.
 * Type `<Type><Suffix>List` represents collection of ENUM fields:
     * Method `<Type><Suffix>List::Len` returns the number of values in the collection.
+    * Method `<Type><Suffix>List::IsEmpty` returns true if the collection is empty.
     * Method `<Type><Suffix>List::Contains` returns true if the collection contains the value.
     * Method `<Type><Suffix>List::Equals` returns true if the two collections are equal.
     * Method `<Type><Suffix>List::Similar` returns true if the two collections contain the same values.
