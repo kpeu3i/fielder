@@ -11,11 +11,11 @@ import (
 )
 
 const (
-	templateName = "output.tpl"
+	templateName = "output.tmpl"
 )
 
 var (
-	//go:embed output.tpl
+	//go:embed output.tmpl
 	templatesFS embed.FS
 )
 
