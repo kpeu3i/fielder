@@ -79,7 +79,7 @@ func initConfig() (config, error) {
 	switch *tagFormat {
 	case formatAsIs, formatSnakeCase, formatCamelCase, formatPascalCase:
 	default:
-		return config{}, fmt.Errorf("invalid tag_format %s", *format)
+		return config{}, fmt.Errorf("invalid tag_format %s", *tagFormat)
 	}
 
 	conf := config{}
