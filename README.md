@@ -1,24 +1,24 @@
 # Fielder
 
-*Fielder* is a tool to generate Go code that extracts fields from a struct and transforms them into ENUM.
+*Fielder* is a tool that generates Go code. It extracts fields from a struct and transforms them into ENUM.
 Also, it adds useful types, methods and functions. 
 
 ## Motivation
 
-When using ORM-s like `gorm`, `go-pg`, `bun` you have to pass column names as arguments of different methods.
-This is a pain to use raw strings for that, and it also might be a security risk.
-Much better to rely on ENUM which represents columns for a specific table.  
+When using ORM-s like `gorm`, `go-pg`, `bun` you have to pass column names as arguments to different methods.
+It is a pain to use raw strings for that, and it also might be a security risk.
+It is better to rely on ENUM which represents columns for a specific table.  
 Also, the generated field names can be used in combination with Golang reflection (`FieldByName`) for different purposes.
 
 ## Features
 
 The library provides the following features:
 
-  * Struct fields representation with ENUM.
-  * Different functions and methods to work with ENUM (validation, listing, conversion to string, etc).
+  * Struct fields represented in an ENUM.
+  * Different functions and methods to work with the ENUM (validation, listing, conversion to string, etc).
   * Tag-based field names extraction (regex can be used to extract a value from a tag).
   * Embedded fields extraction.
-  * Fields excluding.
+  * Field exclusion.
   * Different formatting (camel, pascal, snake).
   * Template overriding.
 
@@ -48,7 +48,7 @@ Then, run command bellow to generate the code:
 
     $ go generate ./...
 
-The following formatting strategies can be applied for the extracted field names (see `format` and `tag_format` flag):
+The following formatting strategies can be applied to the extracted field names (see `format` and `tag_format` flag):
  * `snake_case` (e.g `first_name`)
  * `camel_case` (e.g `firstName`)
  * `pascal_case` (e.g `FirstName`)
